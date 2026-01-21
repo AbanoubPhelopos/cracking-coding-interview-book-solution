@@ -1,7 +1,7 @@
 # 📚 Cracking the Coding Interview - C# Solutions
 
 [![C#](https://img.shields.io/badge/Language-C%23-purple.svg)](https://docs.microsoft.com/en-us/dotnet/csharp/)
-[![.NET](https://img.shields.io/badge/.NET-8.0+-blue.svg)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-10.0-blue.svg)](https://dotnet.microsoft.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
@@ -26,29 +26,45 @@ This repository contains comprehensive C# solutions for all 17 chapters of the r
 
 | Chapter | Topic | Problems | Status |
 |:-------:|-------|:--------:|:------:|
-| 01 | [Arrays and Strings](./Chapter01_ArraysAndStrings/) | 9 | 🔜 |
-| 02 | [Linked Lists](./Chapter02_LinkedLists/) | 8 | 🔜 |
-| 03 | [Stacks and Queues](./Chapter03_StacksAndQueues/) | 6 | 🔜 |
-| 04 | [Trees and Graphs](./Chapter04_TreesAndGraphs/) | 12 | 🔜 |
-| 05 | [Bit Manipulation](./Chapter05_BitManipulation/) | 8 | 🔜 |
-| 06 | [Math and Logic Puzzles](./Chapter06_MathAndLogicPuzzles/) | 10 | 🔜 |
-| 07 | [Object-Oriented Design](./Chapter07_ObjectOrientedDesign/) | 12 | 🔜 |
-| 08 | [Recursion and Dynamic Programming](./Chapter08_RecursionAndDP/) | 14 | 🔜 |
-| 09 | [System Design and Scalability](./Chapter09_SystemDesign/) | 8 | 🔜 |
-| 10 | [Sorting and Searching](./Chapter10_SortingAndSearching/) | 11 | 🔜 |
-| 11 | [Testing](./Chapter11_Testing/) | 6 | 🔜 |
-| 12 | [C and C++](./Chapter12_CAndCPlusPlus/) | 11 | 🔜 |
-| 13 | [Java](./Chapter13_Java/) | 8 | 🔜 |
-| 14 | [Databases](./Chapter14_Databases/) | 7 | 🔜 |
-| 15 | [Threads and Locks](./Chapter15_ThreadsAndLocks/) | 7 | 🔜 |
-| 16 | [Moderate Problems](./Chapter16_Moderate/) | 26 | 🔜 |
-| 17 | [Hard Problems](./Chapter17_Hard/) | 26 | 🔜 |
+| 01 | [Arrays and Strings](./src/Chapter01_ArraysAndStrings/) | 1/9 | � |
+| 02 | [Linked Lists](./src/Chapter02_LinkedLists/) | 0/8 | 🔜 |
+| 03 | [Stacks and Queues](./src/Chapter03_StacksAndQueues/) | 0/6 | 🔜 |
+| 04 | [Trees and Graphs](./src/Chapter04_TreesAndGraphs/) | 0/12 | 🔜 |
+| 05 | [Bit Manipulation](./src/Chapter05_BitManipulation/) | 0/8 | 🔜 |
+| 06 | [Math and Logic Puzzles](./src/Chapter06_MathAndLogicPuzzles/) | 0/10 | 🔜 |
+| 07 | [Object-Oriented Design](./src/Chapter07_ObjectOrientedDesign/) | 0/12 | 🔜 |
+| 08 | [Recursion and Dynamic Programming](./src/Chapter08_RecursionAndDP/) | 0/14 | 🔜 |
+| 09 | [System Design and Scalability](./src/Chapter09_SystemDesign/) | 0/8 | 🔜 |
+| 10 | [Sorting and Searching](./src/Chapter10_SortingAndSearching/) | 0/11 | 🔜 |
+| 11 | [Testing](./src/Chapter11_Testing/) | 0/6 | 🔜 |
+| 12 | [C and C++](./src/Chapter12_CAndCPlusPlus/) | 0/11 | 🔜 |
+| 13 | [Java](./src/Chapter13_Java/) | 0/8 | 🔜 |
+| 14 | [Databases](./src/Chapter14_Databases/) | 0/7 | 🔜 |
+| 15 | [Threads and Locks](./src/Chapter15_ThreadsAndLocks/) | 0/7 | 🔜 |
+| 16 | [Moderate Problems](./src/Chapter16_Moderate/) | 0/26 | 🔜 |
+| 17 | [Hard Problems](./src/Chapter17_Hard/) | 0/26 | 🔜 |
 
 **Legend:** ✅ Complete | 🚧 In Progress | 🔜 Coming Soon
 
 ---
 
-## 🚀 Getting Started
+## 📋 Chapter 01: Arrays and Strings
+
+| # | Problem | Solution | Tests | Difficulty |
+|:-:|---------|:--------:|:-----:|:----------:|
+| 1.1 | [Is Unique](./src/Chapter01_ArraysAndStrings/Problem01_IsUnique/) | ✅ | ✅ | Easy |
+| 1.2 | Check Permutation | 🔜 | 🔜 | Easy |
+| 1.3 | URLify | 🔜 | 🔜 | Easy |
+| 1.4 | Palindrome Permutation | 🔜 | 🔜 | Easy |
+| 1.5 | One Away | 🔜 | 🔜 | Medium |
+| 1.6 | String Compression | 🔜 | � | Easy |
+| 1.7 | Rotate Matrix | 🔜 | 🔜 | Medium |
+| 1.8 | Zero Matrix | 🔜 | 🔜 | Medium |
+| 1.9 | String Rotation | 🔜 | 🔜 | Easy |
+
+---
+
+## �🚀 Getting Started
 
 ### Prerequisites
 
@@ -68,11 +84,11 @@ cd cracking-coding-interview-book-solution
 # Build all solutions
 dotnet build
 
-# Run tests
+# Run all tests
 dotnet test
 
-# Run a specific solution
-dotnet run --project Chapter01_ArraysAndStrings/Problem01_IsUnique
+# Run tests with verbose output
+dotnet test --logger "console;verbosity=detailed"
 ```
 
 ---
@@ -81,28 +97,25 @@ dotnet run --project Chapter01_ArraysAndStrings/Problem01_IsUnique
 
 ```
 cracking-coding-interview-book-solution/
-├── Chapter01_ArraysAndStrings/
-│   ├── Problem01_IsUnique/
-│   │   ├── Solution.cs
-│   │   ├── README.md
-│   │   └── Tests.cs
-│   ├── Problem02_CheckPermutation/
+├── src/
+│   ├── Chapter01_ArraysAndStrings/
+│   │   ├── Problem01_IsUnique/
+│   │   │   ├── Solution.cs          # Implementation with multiple approaches
+│   │   │   └── README.md            # Problem explanation & complexity analysis
+│   │   ├── Problem02_CheckPermutation/
+│   │   └── Chapter01_ArraysAndStrings.csproj
+│   ├── Chapter02_LinkedLists/
 │   └── ...
-├── Chapter02_LinkedLists/
+├── tests/
+│   ├── Chapter01_ArraysAndStrings.Tests/
+│   │   ├── Problem01_IsUniqueTests.cs
+│   │   └── Chapter01_ArraysAndStrings.Tests.csproj
 │   └── ...
-├── Common/
-│   ├── DataStructures/
-│   │   ├── LinkedList.cs
-│   │   ├── TreeNode.cs
-│   │   └── Graph.cs
-│   └── Helpers/
-│       └── TestUtils.cs
-├── README.md
-└── CrackingTheCode.sln
+├── CrackingTheCode.sln
+└── README.md
 ```
 
 ---
-
 
 ## 🎯 Key Topics Covered
 
