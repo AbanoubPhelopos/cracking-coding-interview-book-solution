@@ -53,7 +53,7 @@ This repository contains comprehensive C# solutions for all 17 chapters of the r
 | # | Problem | Solution | Tests | Difficulty |
 |:-:|---------|:--------:|:-----:|:----------:|
 | 1.1 | [Is Unique](./src/Chapter01_ArraysAndStrings/Problem01_IsUnique/) | ✅ | ✅ | Easy |
-| 1.2 | Check Permutation | 🔜 | 🔜 | Easy |
+| 1.2 | [Check Permutation](./src/Chapter01_ArraysAndStrings/Problem02_CheckPermutation/) | ✅ | ✅ | Easy |
 | 1.3 | URLify | 🔜 | 🔜 | Easy |
 | 1.4 | Palindrome Permutation | 🔜 | 🔜 | Easy |
 | 1.5 | One Away | 🔜 | 🔜 | Medium |
