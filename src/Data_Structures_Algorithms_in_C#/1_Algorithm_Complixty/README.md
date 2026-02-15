@@ -106,3 +106,117 @@ SumArray([1, 2, 3, 4, 5]) -> 15
 SumArray([10, 20, 30]) -> 60
 SumArray([-5, 5, -10, 10]) -> 0
 ```
+
+# Part 2: Has Duplicate Nested Loops
+
+## O(n²) Complexity - Nested Loops
+When you have a loop inside another loop, and both iterate over the input, the time complexity becomes O(n²) - quadratic time. The runtime grows with the square of the input size.
+
+### Why Nested Loops Are O(n²)
+```csharp
+for (int i = 0; i < n; i++)        // Runs n times
+{
+    for (int j = 0; j < n; j++)    // For each i, runs n times
+    {
+        // Total: n × n = n² operations
+    }
+}
+```
+
+### Comparing Every Pair
+To check if an array has duplicates using nested loops, we compare each element with every element that comes after it:
+
+```csharp
+// For array [1, 2, 3, 4]
+// i=0: compare 1 with 2, 3, 4  (3 comparisons)
+// i=1: compare 2 with 3, 4     (2 comparisons)
+// i=2: compare 3 with 4        (1 comparison)
+// Total: 3 + 2 + 1 = 6 comparisons
+```
+
+### Growth Rate Example
+| Array Size | Comparisons (worst case) |
+| :--- | :--- |
+| 10 | 45 |
+| 100 | 4,950 |
+| 1,000 | 499,500 |
+| 10,000 | 49,995,000 |
+
+## Your Task
+Write a method that checks if an array contains duplicate values using nested for loops only. Do not use HashSet, LINQ, or sorting - the goal is to understand O(n²) complexity.
+
+### Method Signature
+```csharp
+public static bool HasDuplicatesNaive(int[] numbers)
+```
+
+### Expected Results
+```
+HasDuplicatesNaive([1, 2, 3, 4]) -> False
+HasDuplicatesNaive([1, 2, 3, 1]) -> True
+HasDuplicatesNaive([5, 5]) -> True
+```
+
+# Part 3: Has Duplicate HashSet Optimized (O(n))
+
+## HashSet for O(1) Lookups
+A HashSet<T> stores unique values and provides O(1) average-time operations for Add, Remove, and Contains. This makes it perfect for tracking "have I seen this before?" scenarios.
+
+### O(n²) vs O(n) Comparison
+In the previous lesson, we used nested loops to check for duplicates:
+
+```csharp
+// O(n²) - Nested loops approach
+for (int i = 0; i < numbers.Length; i++)
+{
+    for (int j = i + 1; j < numbers.Length; j++)
+    {
+        if (numbers[i] == numbers[j]) return true;
+    }
+}
+```
+
+With a HashSet, we can do much better:
+
+```csharp
+// O(n) - HashSet approach
+var seen = new HashSet<int>();
+foreach (int num in numbers)
+{
+    if (!seen.Add(num)) return true;  // Add returns false if already exists
+}
+```
+
+### Why HashSet.Add Returns a Boolean
+The Add method returns true if the element was added successfully, or false if it already exists. This single operation both checks and adds in O(1) time:
+
+```csharp
+var set = new HashSet<int>();
+set.Add(5);  // returns true (5 added)
+set.Add(3);  // returns true (3 added)
+set.Add(5);  // returns false (5 already exists!)
+```
+
+### Performance Impact
+| Array Size | O(n²) Operations | O(n) Operations |
+| :--- | :--- | :--- |
+| 100 | 10,000 | 100 |
+| 1,000 | 1,000,000 | 1,000 |
+| 10,000 | 100,000,000 | 10,000 |
+
+## Your Task
+Implement HasDuplicatesOptimized that returns true if the array contains any duplicate values, using a HashSet for O(n) time complexity.
+
+Important: Use the HashSet.Add() method to detect duplicates. Do not use LINQ methods.
+
+### Method Signature
+```csharp
+public static bool HasDuplicatesOptimized(int[] numbers)
+```
+
+### Expected Results
+```
+HasDuplicatesOptimized([1, 2, 3, 2]) -> True
+HasDuplicatesOptimized([1, 2, 3, 4]) -> False
+HasDuplicatesOptimized([5, 5]) -> True
+```
