@@ -140,3 +140,100 @@ FindDuplicates([1, 3, 2, 3, 1, 5]) -> [3, 1]
 FindDuplicates([1, 2, 3, 4, 5]) -> []
 FindDuplicates([5, 5, 5, 5]) -> [5]
 ```
+
+# Part 3: Move Zeroes to End
+
+## The Write-Pointer Technique
+The write-pointer technique is a powerful pattern for rearranging array elements in-place. Instead of creating a new array or swapping elements back and forth, you maintain a single pointer that tracks where the next "valid" element should be written.
+
+This approach is memory-efficient because it modifies the array directly without allocating additional space proportional to the input size.
+
+### How It Works
+Imagine you're organizing a bookshelf. You want to move all the empty slots to one end. Instead of shuffling books around repeatedly, you:
+
+1. Start with a marker at position 0 (the write pointer)
+2. Walk through each slot from left to right
+3. When you find a book (non-empty slot), place it at the marker position and move the marker forward
+4. After checking all slots, fill everything from the marker to the end with empty slots
+
+The write pointer always indicates where the next non-empty item should go.
+
+### Syntax
+```csharp
+// Basic write-pointer pattern
+int writePointer = 0;
+
+for (int i = 0; i < arr.Length; i++)
+{
+    if (/* element meets condition */)
+    {
+        arr[writePointer] = arr[i];
+        writePointer++;
+    }
+}
+
+// Fill remaining positions with default value
+while (writePointer < arr.Length)
+{
+    arr[writePointer] = defaultValue;
+    writePointer++;
+}
+```
+
+### Examples
+```csharp
+// Example 1: Move negative numbers to the front
+int[] scores = { 5, -2, 8, -1, 3 };
+int wp = 0;
+
+for (int i = 0; i < scores.Length; i++)
+{
+    if (scores[i] < 0)
+    {
+        scores[wp] = scores[i];
+        wp++;
+    }
+}
+// After loop: wp = 2, negative numbers are at front
+// Then copy non-negatives after position wp
+
+// Example 2: Remove specific value by overwriting
+char[] letters = { 'a', 'x', 'b', 'x', 'c' };
+int writePos = 0;
+
+for (int i = 0; i < letters.Length; i++)
+{
+    if (letters[i] != 'x')
+    {
+        letters[writePos] = letters[i];
+        writePos++;
+    }
+}
+// Result positions 0-2: 'a', 'b', 'c'
+// Remaining positions can be filled with a placeholder
+```
+
+### Key Insight
+The write pointer is always less than or equal to the read position (loop variable). This means we never overwrite an element we haven't processed yet, which is why this technique works safely in-place.
+
+## Your Task
+Write a method that moves all zeroes in an integer array to the end while maintaining the relative order of all non-zero elements. The modification must be done in-place.
+
+### Requirements:
+- Non-zero elements must keep their original relative order
+- All zeroes should appear at the end of the array
+- Modify the array in-place and return it
+- Use the write-pointer technique (no LINQ or sorting)
+
+### Method Signature
+```csharp
+public static int[] MoveZeroes(int[] arr)
+```
+
+### Expected Results
+```
+MoveZeroes([0, 1, 0, 3, 12]) -> [1, 3, 12, 0, 0]
+MoveZeroes([1, 2, 3]) -> [1, 2, 3]
+MoveZeroes([0, 0, 0]) -> [0, 0, 0]
+MoveZeroes([1, 0, 1]) -> [1, 1, 0]
+```
