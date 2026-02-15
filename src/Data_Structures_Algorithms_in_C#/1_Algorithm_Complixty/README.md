@@ -420,3 +420,71 @@ CompareOperationCounts(5) -> [5, 25]
 CompareOperationCounts(10) -> [10, 100]
 CompareOperationCounts(3) -> [3, 9]
 ```
+
+# Part 7: Complexity Capstone
+
+## Complexity Tradeoff Analyzer Capstone
+This capstone exercise brings together the key complexity concepts you've learned: O(n²) nested loops, O(n) HashSet lookups, and O(log n) binary search.
+
+### The Three Algorithms
+1. Naive Duplicate Check - O(n²)
+```csharp
+// Compare every pair of elements
+for (int i = 0; i < arr.Length; i++)
+    for (int j = i + 1; j < arr.Length; j++)
+        if (arr[i] == arr[j]) return true;
+```
+
+2. HashSet Duplicate Check - O(n)
+```csharp
+// Track seen values with O(1) lookups
+HashSet<int> seen = new HashSet<int>();
+foreach (int num in arr)
+    if (!seen.Add(num)) return true;
+```
+
+3. Binary Search - O(log n)
+```csharp
+// Each comparison halves the search space
+while (left <= right)
+{
+    steps++;
+    int mid = left + (right - left) / 2;
+    if (arr[mid] == target) return steps;
+    // Narrow to left or right half
+}
+```
+
+### Complexity Comparison
+| Algorithm | Time Complexity | 1000 elements |
+| :--- | :--- | :--- |
+| Nested loops | O(n²) | ~500,000 comparisons |
+| HashSet | O(n) | ~1,000 operations |
+| Binary search | O(log n) | ~10 comparisons |
+
+## Your Task
+Implement ComplexityCapstone that returns an array with three values:
+
+1. `hasDuplicateNaive`: 1 if duplicates found using nested loops, 0 otherwise
+2. `hasDuplicateHashSet`: 1 if duplicates found using HashSet, 0 otherwise
+3. `binarySearchStepsForMiddle`: Number of comparisons to find the middle element of the sorted array using binary search
+
+For the binary search:
+- Sort a copy of the input array
+- Find the middle value: `sorted[length / 2]`
+- Count how many comparisons binary search needs to find it
+- If the array is empty, return `[0, 0, 0]`.
+
+Important: You must implement all algorithms manually - no built-in shortcuts for duplicate detection, searching, or summation.
+
+### Method Signature
+```csharp
+public static int[] ComplexityCapstone(int[] numbers)
+```
+
+### Expected Results
+```
+ComplexityCapstone([1, 2, 3, 4, 5]) -> [0, 0, 1]
+ComplexityCapstone([1, 2, 2, 4, 5]) -> [1, 1, 1]
+ComplexityCapstone([]) -> [0, 0, 0]
+```
