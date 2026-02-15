@@ -220,3 +220,91 @@ HasDuplicatesOptimized([1, 2, 3, 2]) -> True
 HasDuplicatesOptimized([1, 2, 3, 4]) -> False
 HasDuplicatesOptimized([5, 5]) -> True
 ```
+
+# Part 4: Algorithm Classification
+
+## Algorithm Complexity Classification
+Understanding time complexity helps you predict how an algorithm's performance scales with input size. Each complexity class has distinct characteristics.
+
+### The Five Major Complexity Classes
+| Complexity | Name | What It Means | Growth Rate |
+| :--- | :--- | :--- | :--- |
+| O(1) | Constant | Always same time | Flat line |
+| O(log n) | Logarithmic | Halves problem each step | Very slow growth |
+| O(n) | Linear | Touches each element once | Straight line |
+| O(n log n) | Linearithmic | Divide and conquer | Slightly curved |
+| O(n²) | Quadratic | Nested iteration | Steep curve |
+
+### Recognizing Each Pattern
+```csharp
+// O(1) - Constant: Direct access, no iteration
+int value = array[5];           // Array index lookup
+var item = dictionary["key"];   // Hash table lookup
+stack.Push(42);                 // Stack operations
+
+// O(log n) - Logarithmic: Eliminates half the data each step
+// Binary search on 1,000,000 items: ~20 comparisons
+while (low <= high)
+{
+    int mid = (low + high) / 2;
+    if (arr[mid] == target) return mid;
+    else if (arr[mid] < target) low = mid + 1;
+    else high = mid - 1;
+}
+
+// O(n) - Linear: Single pass through data
+for (int i = 0; i < n; i++)     // Visit each element once
+    sum += array[i];
+
+// O(n log n) - Linearithmic: Efficient sorting
+// Merge sort: divide array, recursively sort, merge results
+// n elements, log n levels of recursion
+
+// O(n²) - Quadratic: Nested loops comparing pairs
+for (int i = 0; i < n; i++)
+    for (int j = 0; j < n; j++)  // Compare every pair
+        if (arr[j] > arr[j+1]) Swap(arr, j, j+1);
+```
+
+### Real-World Performance (n = 10,000)
+| Complexity | Operations | Time (1μs/op) |
+| :--- | :--- | :--- |
+| O(1) | 1 | 0.001 ms |
+| O(log n) | 13 | 0.013 ms |
+| O(n) | 10,000 | 10 ms |
+| O(n log n) | 132,877 | 133 ms |
+| O(n²) | 100,000,000 | 100 sec |
+
+## Your Task
+Classify algorithms by their Big O notation. Given an algorithm name, return its time complexity.
+
+### O(1) - Constant:
+"array_access", "hash_lookup", "stack_push", "stack_pop"
+
+### O(log n) - Logarithmic:
+"binary_search", "balanced_tree_search"
+
+### O(n) - Linear:
+"linear_search", "find_max", "array_sum"
+
+### O(n log n) - Linearithmic:
+"merge_sort", "heap_sort", "quicksort_average"
+
+### O(n²) - Quadratic:
+"bubble_sort", "selection_sort", "insertion_sort"
+
+Return "Unknown" for any other algorithm. Input matching should be case-insensitive.
+
+### Method Signature
+```csharp
+public static string ClassifyComplexity(string algorithm)
+```
+
+### Expected Results
+```
+ClassifyComplexity("array_access") -> "O(1)"
+ClassifyComplexity("binary_search") -> "O(log n)"
+ClassifyComplexity("merge_sort") -> "O(n log n)"
+ClassifyComplexity("BUBBLE_SORT") -> "O(n^2)"
+ClassifyComplexity("dijkstra") -> "Unknown"
+```
