@@ -237,3 +237,79 @@ MoveZeroes([1, 2, 3]) -> [1, 2, 3]
 MoveZeroes([0, 0, 0]) -> [0, 0, 0]
 MoveZeroes([1, 0, 1]) -> [1, 1, 0]
 ```
+
+# Part 4: Second Largest Element
+
+## Single-Pass Tracking with Multiple Variables
+Many array problems can be solved efficiently by maintaining a small set of "best so far" variables as you iterate through the data. Instead of sorting the entire collection or making multiple passes, you keep track of the values you care about and update them as you encounter new elements. This is especially useful when you need the top N values from a dataset — think leaderboards, performance monitoring, or statistical analysis.
+
+### How It Works
+Imagine you're watching runners cross a finish line one at a time. You don't need to remember every runner's time — you just keep a mental note of the fastest time and the second fastest time. Each time a new runner finishes, you compare their time against your two tracked values and update accordingly.
+
+The key insight is handling the cascade: when a new element beats your current best, the old best doesn't disappear — it becomes the new second best. And when a new element doesn't beat the best but does beat the second best, only the second variable updates.
+
+### Syntax
+```csharp
+// Initialize tracking variables
+int best = int.MinValue;
+int secondBest = int.MinValue;
+
+// Single pass through the array
+for (int i = 0; i < arr.Length; i++)
+{
+    // Compare arr[i] against best and secondBest
+    // Update in the right order to preserve both values
+}
+```
+
+### Examples
+```csharp
+// Finding the two smallest temperatures in a week
+int[] temps = {72, 65, 80, 65, 71, 68, 77};
+int coldest = int.MaxValue;
+int secondColdest = int.MaxValue;
+
+for (int i = 0; i < temps.Length; i++)
+{
+    if (temps[i] < coldest)
+    {
+        secondColdest = coldest;  // old best becomes second best
+        coldest = temps[i];       // new best
+    }
+    else if (temps[i] < secondColdest && temps[i] != coldest)
+    {
+        secondColdest = temps[i]; // new second best (distinct)
+    }
+}
+// coldest = 65, secondColdest = 68
+
+// Notice how duplicates (65 appears twice) are handled:
+// The second occurrence of 65 doesn't change either variable
+// because it equals coldest and is not less than secondColdest
+```
+
+### Common Pitfalls
+- **Forgetting the cascade**: When a new maximum is found, the old maximum should shift to the second position — don't just overwrite it.
+- **Duplicate values**: If the array contains [8, 8, 8], the largest is 8 but there is no distinct second largest. Your logic must distinguish between "equal to the best" and "a new second best."
+- **Edge cases**: Arrays with 0 or 1 elements, or arrays where all elements are identical, have no valid second value.
+- **Initialization**: Think carefully about initial values and how to know whether you've actually found valid candidates.
+
+## Your Task
+Write a method that finds the second largest distinct value in an integer array using a single pass. You should track the largest and second largest values as you iterate, updating them appropriately when you encounter new values.
+
+If the array has fewer than 2 distinct values (including empty arrays or arrays with all identical elements), return -1.
+
+Remember: the second largest must be strictly less than the largest. For example, in [5, 1, 8, 3, 8], the largest is 8 and the second largest is 5.
+
+### Method Signature
+```csharp
+public static int SecondLargest(int[] arr)
+```
+
+### Expected Results
+```
+SecondLargest([5, 1, 8, 3, 8]) -> 5
+SecondLargest([10, 10, 10]) -> -1
+SecondLargest([3, 7]) -> 3
+SecondLargest([]) -> -1
+```
