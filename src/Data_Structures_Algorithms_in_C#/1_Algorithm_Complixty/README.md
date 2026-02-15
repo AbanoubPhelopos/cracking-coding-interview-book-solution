@@ -361,3 +361,62 @@ CountBinarySearchSteps([1, 3, 5, 7, 9], 5) -> 1  // Middle element is target
 CountBinarySearchSteps([1, 3, 5, 7, 9], 9) -> 3  // Check 5, then 7, then 9
 CountBinarySearchSteps([1, 3, 5, 7, 9], 4) -> 3  // Not found after 3 steps
 ```
+
+# Part 6: Growth Comparison (O(n) vs O(n²))
+
+## Comparing O(n) vs O(n²) Growth
+The best way to understand algorithm complexity is to see it in action. By counting actual operations, you can observe how dramatically O(n²) algorithms slow down compared to O(n) as input grows.
+
+### O(n) - Linear Growth
+```csharp
+int count = 0;
+for (int i = 0; i < n; i++)
+{
+    count++;  // Executes exactly n times
+}
+// count == n
+```
+A single loop iterating n times performs exactly n operations.
+
+### O(n²) - Quadratic Growth
+```csharp
+int count = 0;
+for (int i = 0; i < n; i++)
+{
+    for (int j = 0; j < n; j++)
+    {
+        count++;  // Executes n × n times
+    }
+}
+// count == n * n
+```
+Nested loops where both iterate n times perform n × n = n² operations.
+
+### Growth Comparison
+| n | O(n) ops | O(n²) ops | Ratio |
+| :--- | :--- | :--- | :--- |
+| 5 | 5 | 25 | 5× |
+| 10 | 10 | 100 | 10× |
+| 100 | 100 | 10,000 | 100× |
+| 1000 | 1,000 | 1,000,000 | 1000× |
+
+Notice how the ratio equals n itself - O(n²) becomes n times slower than O(n)!
+
+## Your Task
+Write a method that counts and compares operation counts for both complexity classes:
+
+1. Count operations in a single loop from 0 to n-1
+2. Count operations in nested loops, each from 0 to n-1
+3. Return both counts as an array [linearCount, quadraticCount]
+
+### Method Signature
+```csharp
+public static int[] CompareOperationCounts(int n)
+```
+
+### Expected Results
+```
+CompareOperationCounts(5) -> [5, 25]
+CompareOperationCounts(10) -> [10, 100]
+CompareOperationCounts(3) -> [3, 9]
+```
