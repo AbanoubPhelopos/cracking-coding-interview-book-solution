@@ -468,3 +468,97 @@ RotateArray([1, 2, 3, 4, 5], 5)  -> [1, 2, 3, 4, 5]
 RotateArray([10, 20, 30], 1)     -> [30, 10, 20]
 RotateArray([], 3)               -> []
 ```
+
+# Part 7: Merge Two Sorted Arrays
+
+## The Two-Pointer Merge Technique
+Merging two already-sorted sequences into a single sorted sequence is one of the most important operations in computer science. It's the core building block of Merge Sort and appears frequently in stream processing, database operations, and file merging. The key insight is that because both inputs are already sorted, you never need to sort anything — you just need to pick the right element at each step.
+
+### How It Works
+Imagine you have two stacks of numbered cards, each arranged from smallest on top to largest on bottom. To combine them into one sorted stack, you'd compare the top cards of both stacks, take the smaller one, and place it in your result pile. You repeat this until one stack runs out, then you dump the remaining stack directly onto the result. This is exactly the two-pointer merge — each pointer tracks the "top card" of each input array.
+
+The algorithm runs in O(n + m) time where n and m are the lengths of the two arrays, because each element is visited exactly once.
+
+### Syntax
+```csharp
+// Creating a result array of known size
+int[] result = new int[totalSize];
+
+// Using multiple index variables
+int i = 0, j = 0, k = 0;
+
+// Comparing elements at current positions
+if (arr1[i] <= arr2[j])
+{
+    // arr1[i] is smaller or equal — use it
+}
+
+// Copying remaining elements when one pointer is exhausted
+while (i < arr1.Length)
+{
+    result[k] = arr1[i];
+    i++;
+    k++;
+}
+```
+
+### Examples
+```csharp
+// Example: Merging two sorted lists of temperatures
+// morningTemps = [15, 20, 25]
+// eveningTemps = [18, 22, 30]
+// Pointer i starts at morningTemps[0] = 15
+// Pointer j starts at eveningTemps[0] = 18
+// 15 < 18 → take 15, advance i
+// 20 > 18 → take 18, advance j
+// 20 < 22 → take 20, advance i
+// 25 > 22 → take 22, advance j
+// 25 < 30 → take 25, advance i
+// morningTemps exhausted → append 30
+// Result: [15, 18, 20, 22, 25, 30]
+
+// Example: When arrays have different lengths
+// a = [1, 5]
+// b = [2, 3, 4, 6, 7]
+// After comparing and taking 1, 2, 3, 4, 5 — pointer for 'a' is exhausted
+// Remaining from b: [6, 7] → append directly
+// Result: [1, 2, 3, 4, 5, 6, 7]
+
+// Example: When one array is empty
+// a = []
+// b = [10, 20, 30]
+// The main comparison loop doesn't execute at all
+// All of b gets appended as remaining elements
+// Result: [10, 20, 30]
+```
+
+### Common Patterns
+The two-pointer merge follows a three-phase pattern:
+
+1. **Compare phase**: Both pointers are valid — compare elements and advance the pointer of the smaller element
+2. **Drain phase A**: First array is exhausted — copy remaining elements from the second array
+3. **Drain phase B**: Second array is exhausted — copy remaining elements from the first array
+
+Only one of the drain phases actually executes (whichever array still has elements left).
+
+## Your Task
+Write a method that takes two sorted integer arrays and returns a new sorted array containing all elements from both inputs. You must use the two-pointer technique — do not use built-in sorting or concatenation.
+
+### Requirements:
+- Both input arrays are sorted in ascending order
+- The result must also be sorted in ascending order
+- Handle cases where one or both arrays are empty
+- Handle duplicate values across the two arrays
+
+### Method Signature
+```csharp
+public static int[] MergeSortedArrays(int[] arr1, int[] arr2)
+```
+
+### Expected Results
+```
+MergeSortedArrays([1, 3, 5], [2, 4, 6]) -> [1, 2, 3, 4, 5, 6]
+MergeSortedArrays([1, 2, 3], [4, 5, 6]) -> [1, 2, 3, 4, 5, 6]
+MergeSortedArrays([], [1, 2, 3]) -> [1, 2, 3]
+MergeSortedArrays([1, 1, 1], [1, 1, 1]) -> [1, 1, 1, 1, 1, 1]
+```
