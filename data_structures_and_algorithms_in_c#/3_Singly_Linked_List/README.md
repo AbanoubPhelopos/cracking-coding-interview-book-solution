@@ -755,3 +755,93 @@ ReverseList([42])            -> [42]
 ReverseList([])              -> []
 ```
 
+# Part 9: Chapter Capstone - Linked List Editor
+
+## Singly Linked List Capstone
+A singly linked list is one of the most fundamental data structures in computer science. Unlike arrays, linked lists store elements in nodes that are connected via pointers (references). Each node holds a value and a reference to the next node. This structure makes insertions and deletions efficient but requires manual traversal to access elements.
+
+This capstone combines four core linked list operations into one method: building, inserting, deleting, and reversing.
+
+### How Linked Lists Work
+A linked list is a chain of `Node` objects. The first node is called the head. To traverse the list, you start at the head and follow `.Next` references until you reach `null` (the end).
+
+`Head -> [10] -> [20] -> [30] -> null`
+
+Unlike arrays, you cannot jump to position `i` directly — you must walk node by node.
+
+### The Node Class (provided in Node.cs)
+A `Node` class is provided for you as a read-only file:
+
+```csharp
+public class Node
+{
+    public int Value { get; set; }
+    public Node Next { get; set; }
+
+    public Node(int value)
+    {
+        Value = value;
+        Next = null;
+    }
+}
+```
+
+### Key Operations
+
+**Building a List from an Array**
+To build a list, create a `Node` for each element and link them together. Keeping track of both the head (first node) and tail (last node) makes appending efficient.
+
+```csharp
+// Example: building a list from ["A", "B", "C"]
+// Result: Head -> [A] -> [B] -> [C] -> null
+```
+
+**Inserting at a Position**
+To insert at position `i`, traverse to the node at position `i - 1`, then rewire the pointers:
+
+- Before: `... -> [prev] -> [next] -> ...`
+- After:  `... -> [prev] -> [NEW] -> [next] -> ...`
+
+Special cases: inserting at position 0 means the new node becomes the new head. If the position exceeds the list length, append to the end.
+
+**Deleting by Value**
+To delete the first node matching a value, find the node before it and skip over the target:
+
+- Before: `... -> [prev] -> [TARGET] -> [after] -> ...`
+- After:  `... -> [prev] -> [after] -> ...`
+
+If the head itself matches, simply move the head forward. If no match is found, do nothing.
+
+**Reversing a List**
+Reversing a singly linked list means flipping all the `.Next` pointers so the last node becomes the head. This is done iteratively with three pointer variables tracking the previous, current, and next nodes as you walk through the list.
+
+- Before: `[1] -> [2] -> [3] -> null`
+- After:  `[3] -> [2] -> [1] -> null`
+
+## Your Task
+Implement `LinkedListCapstone` that performs these four operations in order:
+
+1. **Build** a singly linked list from the input array values
+2. **Insert** `insertValue` at 0-based position `insertPos`. If `insertPos` is negative or 0, insert at the beginning. If it exceeds the list length, append to the end.
+3. **Delete** the first node whose value equals `deleteValue`. If not found, do nothing.
+4. **Reverse** the entire list.
+5. **Return** the final list as an `int[]`.
+
+Use the `Node` class from Node.cs to build your own linked list — do not use built-in linked list classes or built-in reverse methods.
+
+### Method Signature
+```csharp
+public static int[] LinkedListCapstone(int[] values, int insertPos, int insertValue, int deleteValue)
+```
+
+### Expected Results
+```
+LinkedListCapstone([1, 2, 3], 1, 10, 2) -> [3, 10, 1]
+  // Build: 1->2->3, Insert 10 at pos 1: 1->10->2->3, Delete 2: 1->10->3, Reverse: 3->10->1
+
+LinkedListCapstone([], 0, 5, 5) -> []
+  // Build: empty, Insert 5 at pos 0: 5, Delete 5: empty, Reverse: empty
+
+LinkedListCapstone([7], 99, 4, 9) -> [4, 7]
+  // Build: 7, Insert 4 at pos 99 (appended): 7->4, Delete 9 (not found): 7->4, Reverse: 4->7
+```
