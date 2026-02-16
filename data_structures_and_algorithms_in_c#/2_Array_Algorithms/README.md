@@ -562,3 +562,78 @@ MergeSortedArrays([1, 2, 3], [4, 5, 6]) -> [1, 2, 3, 4, 5, 6]
 MergeSortedArrays([], [1, 2, 3]) -> [1, 2, 3]
 MergeSortedArrays([1, 1, 1], [1, 1, 1]) -> [1, 1, 1, 1, 1, 1]
 ```
+
+# Part 8: Maximum Subarray Sum
+
+## Kadane's Algorithm — Maximum Subarray Sum
+A contiguous subarray is a sequence of consecutive elements within an array. Finding the subarray with the largest sum is a classic problem that appears in financial analysis (best period of profit), signal processing, and many optimization scenarios. The brute-force approach of checking every possible subarray is O(n²), but Kadane's algorithm solves it in a single pass — O(n) time.
+
+### How It Works
+The key insight is a simple decision at every element: should you extend the current subarray by adding this element, or start fresh from this element? If the running sum so far has become so negative that adding the current element still leaves you worse off than the element alone, it's better to discard the past and start a new subarray.
+
+You maintain two variables:
+
+- **currentMax** — the best sum of any subarray that ends at the current position
+- **globalMax** — the best sum seen anywhere so far
+
+At each step, you update both.
+
+### Syntax
+```csharp
+// Choosing the better of two options
+int better = Math.Max(optionA, optionB);
+
+// Iterating through an array starting from index 1
+for (int i = 1; i < arr.Length; i++)
+{
+    // process arr[i]
+}
+```
+
+### Examples
+```csharp
+// Consider tracking the best streak of daily temperature changes:
+// Temperature changes: [3, -1, -1, 5, -4, 2]
+// Step through:
+//   i=0: currentMax = 3,  globalMax = 3
+//   i=1: currentMax = Max(-1, 3+(-1)) = 2,  globalMax = 3
+//   i=2: currentMax = Max(-1, 2+(-1)) = 1,  globalMax = 3
+//   i=3: currentMax = Max(5, 1+5) = 6,       globalMax = 6
+//   i=4: currentMax = Max(-4, 6+(-4)) = 2,   globalMax = 6
+//   i=5: currentMax = Max(2, 2+2) = 4,        globalMax = 6
+// Answer: 6 (subarray [3, -1, -1, 5])
+
+// Another example — all negative values:
+// Scores: [-5, -2, -8, -1]
+// The "best" subarray is just [-1], the least negative single element.
+// currentMax and globalMax track the single largest element.
+// Answer: -1
+```
+
+Notice how when everything is negative, the algorithm naturally picks the single largest element, because starting fresh is always better than extending a negative running sum.
+
+### The Decision at Each Element
+| Situation | Action | Why |
+| :--- | :--- | :--- |
+| currentMax + arr[i] >= arr[i] | Extend the subarray | The running sum still helps |
+| currentMax + arr[i] < arr[i] | Start a new subarray at arr[i] | The past is dragging us down |
+
+This decision is captured in one line: `currentMax = Math.Max(arr[i], currentMax + arr[i])`.
+
+## Your Task
+Write a method that takes an integer array (guaranteed to have at least one element) and returns the maximum sum of any contiguous subarray.
+
+The subarray must contain at least one element. If all elements are negative, the result should be the largest (least negative) single element.
+
+### Method Signature
+```csharp
+public static int MaxSubarraySum(int[] arr)
+```
+
+### Expected Results
+```
+MaxSubarraySum([-2, 1, -3, 4, -1, 2, 1, -5, 4]) -> 6
+MaxSubarraySum([1, 2, 3, 4]) -> 10
+MaxSubarraySum([-1, -2, -3]) -> -1
+MaxSubarraySum([5]) -> 5
+```
