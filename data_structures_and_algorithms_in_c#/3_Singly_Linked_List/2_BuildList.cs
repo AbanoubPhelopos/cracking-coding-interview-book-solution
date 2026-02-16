@@ -3,6 +3,16 @@ using System.Collections.Generic;
 
 public class Solution
 {
+    public class Node
+    {
+        public int Value { get; set; }
+        public Node Next { get; set; }
+        public Node(int value)
+        {
+            Value = value;
+            Next = null;
+        }
+    }
     public static int[] BuildList(int[] values)
     {
         if (values.Length == 0)
@@ -15,12 +25,12 @@ public class Solution
         for (int i = 1; i < values.Length; i++)
         {
             Node node = new Node(values[i]);
-            pref.Next = node;   // link previous -> new (not backwards!)
-            pref = node;        // advance to the new node
+            pref.Next = node;
+            pref = node;
         }
 
         List<int> ans = new List<int>();
-        while (start is not null)   // visit ALL nodes including the last
+        while (start is not null)
         {
             ans.Add(start.Value);
             start = start.Next;

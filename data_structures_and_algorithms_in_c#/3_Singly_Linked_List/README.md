@@ -209,3 +209,92 @@ BuildList([10])         -> [10]
 BuildList([])           -> []
 BuildList([1, 2, 3, 4]) -> [1, 2, 3, 4]
 ```
+
+# Part 3: Traverse to Array
+
+## Singly Linked Lists
+A singly linked list is one of the most fundamental data structures in computer science. Unlike an array, where elements sit next to each other in memory, a linked list stores each element in a separate node. Each node holds a value and a reference (pointer) to the next node in the chain. The last node's `Next` reference is `null`, signaling the end of the list.
+
+Linked lists are used when you need efficient insertions and deletions at arbitrary positions, or when you don't know the size of your collection in advance.
+
+### How It Works
+Think of a linked list like a scavenger hunt. Each clue (node) has two things: a prize (the value) and directions to the next clue (the `Next` pointer). You start at the first clue (the head) and follow directions until you reach a clue that says "stop" (`null`).
+
+Building a linked list means creating nodes one at a time and wiring them together. Traversing means starting at the head and walking through each node by following `Next` until you hit `null`.
+
+### Syntax
+```csharp
+// Creating individual nodes
+Node first = new Node(5);
+Node second = new Node(12);
+
+// Linking nodes together
+first.Next = second;
+// Now: first -> second -> null
+
+// Walking through a linked list
+Node current = head;
+while (current != null)
+{
+    // Do something with current.Value
+    current = current.Next;
+}
+```
+
+### Examples
+```csharp
+// Example 1: Build a 3-node list representing colors as numeric codes
+Node head = new Node(255);       // Red
+Node green = new Node(128);
+Node blue = new Node(64);
+head.Next = green;
+green.Next = blue;
+// Chain: 255 -> 128 -> 64 -> null
+
+// Example 2: Traverse and print each value
+Node walker = head;
+while (walker != null)
+{
+    Console.WriteLine(walker.Value); // Prints 255, then 128, then 64
+    walker = walker.Next;
+}
+
+// Example 3: Build from a loop using a "tail" pointer
+int[] temps = { 72, 68, 75, 80 };
+Node listHead = new Node(temps[0]);
+Node tail = listHead;
+for (int i = 1; i < temps.Length; i++)
+{
+    tail.Next = new Node(temps[i]);
+    tail = tail.Next;
+}
+// Chain: 72 -> 68 -> 75 -> 80 -> null
+```
+
+### Common Patterns
+- **Building a list from a collection**: Create the head from the first element, then use a tracking variable (often called `current` or `tail`) to keep a reference to the last node. For each new element, create a node, link it, and advance your tracker.
+- **Traversing a list**: Set a variable to the head. Loop while it's not `null`. Inside the loop, process the value, then move to `current.Next`.
+- **Empty input**: Always consider what happens when there are zero elements — there's no head to create.
+
+## Your Task
+Write a method that takes an `int[]` array and:
+
+- Builds a singly linked list from the array elements (first element becomes the head, each subsequent element is linked via `Next`)
+- Traverses the linked list from head to end, collecting each node's `Value`
+- Returns the collected values as an `int[]`
+
+This round-trip (array → linked list → array) proves the list was built and traversed correctly. Handle the case where the input array is empty by returning an empty array.
+
+### Method Signature
+```csharp
+public static int[] TraverseList(int[] values)
+```
+
+### Expected Results
+```
+TraverseList([10, 20, 30])    -> [10, 20, 30]
+TraverseList([42])            -> [42]
+TraverseList([])              -> []
+TraverseList([1, 2, 3, 4, 5]) -> [1, 2, 3, 4, 5]
+```
+
