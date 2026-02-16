@@ -298,3 +298,98 @@ TraverseList([])              -> []
 TraverseList([1, 2, 3, 4, 5]) -> [1, 2, 3, 4, 5]
 ```
 
+# Part 4: Get Length
+
+## Counting Nodes in a Singly Linked List
+A singly linked list is one of the most fundamental data structures in computer science. Unlike an array where elements sit in contiguous memory, a linked list is a chain of nodes — each node holds a value and a reference (pointer) to the next node. The last node's `Next` reference is `null`, signaling the end of the chain.
+
+Understanding how to build and traverse a linked list is essential because it teaches you how references connect objects in memory, a concept that applies to trees, graphs, and many other structures.
+
+### How It Works
+Imagine a treasure hunt where each clue tells you where the next clue is. You start at the first clue (the head node) and follow references until you reach a clue that says "stop" (`null`). Counting nodes means visiting every clue and keeping a tally.
+
+Building a linked list from a collection of values involves two steps:
+
+1. Create a `Node` for each value
+2. Link each node to the next by setting its `Next` property
+
+Once built, you traverse the list by starting at the head and repeatedly moving to `current.Next` until you reach `null`.
+
+### Syntax
+```csharp
+// Creating a node
+Node node = new Node(42);
+
+// Linking two nodes
+Node first = new Node(10);
+Node second = new Node(20);
+first.Next = second;  // first -> second -> null
+
+// Traversing a linked list
+Node current = head;
+while (current != null)
+{
+    // Do something with current.Value
+    current = current.Next;
+}
+```
+
+### Examples
+```csharp
+// Example 1: Building a 3-node list for letters A=65, B=66, C=67
+Node head = new Node(65);
+Node b = new Node(66);
+Node c = new Node(67);
+head.Next = b;
+b.Next = c;
+// Result: 65 -> 66 -> 67 -> null
+
+// Example 2: Traversing and printing each value
+Node current = head;
+while (current != null)
+{
+    Console.Write(current.Value + " ");
+    current = current.Next;
+}
+// Output: 65 66 67
+
+// Example 3: Summing all values by traversal
+int sum = 0;
+current = head;
+while (current != null)
+{
+    sum += current.Value;
+    current = current.Next;
+}
+// sum is 198
+```
+
+### Common Patterns
+- **Building from an array**: Loop through the array. Create the head from the first element, then for each subsequent element create a new node and attach it to the previous node's `Next`.
+- **Tracking the tail**: Keep a reference to the last node so you can efficiently append new nodes without re-traversing.
+- **Counting via traversal**: Initialize a counter at 0, walk from head to `null`, incrementing the counter at each step.
+
+## Your Task
+Write a method that:
+
+- Takes an array of integers
+- Builds a singly linked list where each array element becomes a node (in order)
+- Traverses the linked list from head to end, counting the number of nodes
+- Returns the count
+
+If the input array is empty, there is no linked list to build — return `0`.
+
+### Method Signature
+```csharp
+public static int GetLength(int[] values)
+```
+
+### Expected Results
+```
+GetLength([5, 10, 15, 20])        -> 4
+GetLength([42])                   -> 1
+GetLength([])                     -> 0
+GetLength([1, 2, 3, 4, 5, 6, 7]) -> 7
+```
+
+
