@@ -576,6 +576,77 @@ InsertAtPosition([10, 20, 30], 0, 5)  -> [5, 10, 20, 30]
 InsertAtPosition([10, 20, 30], 3, 40) -> [10, 20, 30, 40]
 ```
 
+# Part 7: Delete by Value
+
+## Deleting a Node by Value from a Singly Linked List
+A singly linked list is a chain of nodes where each node holds a value and a reference (pointer) to the next node. Unlike arrays, linked lists don't use contiguous memory — elements are connected through these `Next` references. This structure makes insertion and deletion efficient because you only need to update pointers rather than shifting elements around.
+
+Deleting a node is one of the fundamental linked list operations. It requires careful pointer manipulation to "unlink" a node from the chain without breaking the rest of the list.
+
+### How It Works
+To delete a node by value, you traverse the list looking for the target. There are two scenarios:
+
+1. **The target is at the head**: You simply move the head pointer to `head.Next`, effectively removing the first node.
+2. **The target is somewhere in the middle or end**: You need to keep track of the previous node. When you find the target node, you set `previous.Next = current.Next`, which makes the previous node skip over the target and point directly to whatever comes after it.
+
+Think of it like a chain of paper clips — to remove one clip from the middle, you disconnect the clip before it and reattach it to the clip after the one you're removing.
+
+### Syntax
+```csharp
+// Creating nodes and linking them
+Node a = new Node(10);
+Node b = new Node(20);
+a.Next = b;  // a -> b -> null
+
+// Removing b by updating a's Next pointer
+a.Next = b.Next;  // a -> null (b is now unlinked)
+```
+
+### Examples
+Consider a linked list: `5 -> 10 -> 15 -> null`
+
+**Deleting the head node (value 5):**
+1. Check if head value is 5.
+2. Update head to `head.Next`.
+Result: `10 -> 15 -> null`
+
+**Deleting a middle node (value 10):**
+1. Traverse with `current` and `previous`.
+2. Find node with value 10. `previous` points to 5.
+3. Set `previous.Next = current.Next` (which is 15).
+Result: `5 -> 15 -> null`
+
+### Common Patterns
+- **Traversal with a previous pointer**: When deleting, you often need two pointers — one for the current node and one trailing behind it. This lets you update `previous.Next` when you find the target.
+- **Head deletion as a special case**: The head has no previous node, so it must be handled separately.
+- **Target not found**: If no node matches the target value, the list remains unchanged.
+- **Building a list from an array**: Loop through the array, creating a new `Node` for each element and linking it to the previous one.
+
+## Your Task
+Write a method that takes an array of integers and a target value. Your method should:
+
+- Build a singly linked list from the array using the `Node` class (defined in Node.cs)
+- Find and remove the first node whose `Value` matches the target
+- Collect all remaining node values into an `int[]` and return it
+
+If the target matches the head node, update the head. If the target doesn't exist in the list, return all values unchanged. If the input array is empty, return an empty array.
+
+### Method Signature
+```csharp
+public static int[] DeleteByValue(int[] values, int target)
+```
+
+### Expected Results
+```
+DeleteByValue([1, 2, 3, 4, 5], 3)   -> [1, 2, 4, 5]
+DeleteByValue([10, 20, 30], 10)     -> [20, 30]
+DeleteByValue([7, 8, 9], 9)         -> [7, 8]
+DeleteByValue([5, 5, 5], 5)         -> [5, 5]  // only first match removed
+DeleteByValue([1, 2, 3], 99)        -> [1, 2, 3]  // target not found
+DeleteByValue([], 1)                -> []
+```
+
+
 
 
 
