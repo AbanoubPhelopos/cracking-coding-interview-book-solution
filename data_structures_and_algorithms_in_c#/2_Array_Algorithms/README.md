@@ -313,3 +313,84 @@ SecondLargest([10, 10, 10]) -> -1
 SecondLargest([3, 7]) -> 3
 SecondLargest([]) -> -1
 ```
+
+# Part 5: Two Sum
+
+## Hash-Based Complement Lookup
+The Two Sum problem is one of the most well-known algorithmic challenges, and it beautifully demonstrates how a hash map (dictionary) can transform a brute-force O(n²) solution into an efficient O(n) one. The core insight is that instead of checking every pair, you can ask a smarter question: "Have I already seen the number that would complete this pair?"
+
+### How It Works
+Imagine you're searching through a list of numbers for two that add up to a target. The naive approach compares every element with every other element — slow for large arrays. A better approach uses a dictionary as a "memory" of what you've already visited.
+
+As you walk through the array, for each number you compute its complement — the value that, when added to the current number, equals the target. Then you check: "Is that complement already in my dictionary?" If yes, you've found your pair. If no, you store the current number and its index in the dictionary for future lookups.
+
+### Syntax
+```csharp
+// Creating and using a Dictionary<TKey, TValue>
+var map = new Dictionary<int, int>();
+
+// Adding an entry: map[key] = value
+map[42] = 0;
+
+// Checking if a key exists
+if (map.ContainsKey(42))
+{
+    int storedValue = map[42];
+}
+
+// Computing a complement
+int complement = target - currentValue;
+```
+
+### Examples
+```csharp
+// Example 1: Finding a pair that sums to 10 in temperatures
+// temperatures = [3, 7, 1, 9]
+// target = 10
+// At index 0: complement = 10 - 3 = 7, not in dict → store {3: 0}
+// At index 1: complement = 10 - 7 = 3, found in dict at index 0 → return [0, 1]
+
+// Example 2: The pair isn't always at the start
+// scores = [5, 1, 8, 3, 6]
+// target = 9
+// At index 0: complement = 9 - 5 = 4, not in dict → store {5: 0}
+// At index 1: complement = 9 - 1 = 8, not in dict → store {5:0, 1:1}
+// At index 2: complement = 9 - 8 = 1, found in dict at index 1 → return [1, 2]
+
+// Example 3: Negative numbers work the same way
+// values = [-1, 4, -3, 8]
+// target = 5
+// At index 0: complement = 5 - (-1) = 6, not in dict → store {-1: 0}
+// At index 1: complement = 5 - 4 = 1, not in dict → store {-1:0, 4:1}
+// At index 2: complement = 5 - (-3) = 8, not in dict → store {-1:0, 4:1, -3:2}
+// At index 3: complement = 5 - 8 = -3, found in dict at index 2 → return [2, 3]
+```
+
+### Why Dictionary Over Nested Loops?
+| Approach | Time Complexity | Space Complexity |
+| :--- | :--- | :--- |
+| Nested loops (brute force) | O(n²) | O(1) |
+| Dictionary lookup | O(n) | O(n) |
+
+Dictionary lookup trades a small amount of extra memory for a dramatic speedup. The ContainsKey operation is O(1) on average, so the entire algorithm runs in a single pass through the array.
+
+## Your Task
+Write a method that takes an array of integers and a target sum, then returns the indices of the two numbers that add up to the target. The returned indices should be in ascending order (smaller index first).
+
+### Assumptions:
+- There is always exactly one valid solution
+- The same element cannot be used twice (the two indices must be different)
+- The array will have at least 2 elements
+
+### Method Signature
+```csharp
+public static int[] TwoSum(int[] numbers, int target)
+```
+
+### Expected Results
+```
+TwoSum([2, 7, 11, 15], 9)       → [0, 1]
+TwoSum([3, 2, 4], 6)            → [1, 2]
+TwoSum([1, 5, 3, 7, 2], 9)      → [1, 3]
+TwoSum([-1, 0, 1, 2], 1)        → [0, 2]
+```
