@@ -646,7 +646,112 @@ DeleteByValue([1, 2, 3], 99)        -> [1, 2, 3]  // target not found
 DeleteByValue([], 1)                -> []
 ```
 
+# Part 8: Reverse the List
 
+## Reversing a Singly Linked List
+A singly linked list is one of the most fundamental data structures in computer science. Each element (called a node) holds a value and a reference to the next node in the chain. The last node points to `null`, marking the end. Reversing a linked list — making the last node first and the first node last — is a classic problem that tests your understanding of pointer manipulation.
 
+### How a Singly Linked List Works
+Imagine a chain of paper clips. Each clip is linked to the next one, and you can only move forward through the chain. A singly linked list works the same way:
 
+`Head -> [10] -> [20] -> [30] -> null`
+
+Each node has two parts:
+- **Value**: the data it stores
+- **Next**: a reference (pointer) to the next node
+
+To traverse the list, you start at the head and follow the `Next` references until you reach `null`.
+
+### Building a Linked List from an Array
+To create a linked list, you typically start with the first element as the head, then attach subsequent elements one by one:
+
+```csharp
+// Given an array like ["A", "B", "C"]
+// You'd create:
+// Head -> [A] -> [B] -> [C] -> null
+
+Node head = new Node(firstValue);
+Node current = head;
+// For each remaining value, create a new node and link it
+current.Next = new Node(nextValue);
+current = current.Next;
+```
+
+### The Three-Pointer Reversal Technique
+Reversing a linked list in-place means you don't create a new list — you rearrange the existing nodes' `Next` pointers so they point backward instead of forward.
+
+The key insight is that you need three pointers to do this safely:
+
+1. **previous**: tracks the node behind current (starts as `null` because there's nothing before the head)
+2. **current**: the node you're currently processing (starts at head)
+3. **next**: a temporary reference to save `current.Next` before you overwrite it
+
+Consider a list `[A] -> [B] -> [C] -> null`. At each step of the reversal:
+
+1. Save `current.Next` into `next` (so you don't lose the rest of the list)
+2. Point `current.Next` to `previous` (this reverses the link)
+3. Move `previous` forward to `current`
+4. Move `current` forward to `next`
+
+- **Step 0**: `prev=null`, `curr=[A]->[B]->[C]->null`
+- **Step 1**: `prev=[A]->null`, `curr=[B]->[C]->null`
+- **Step 2**: `prev=[B]->[A]->null`, `curr=[C]->null`
+- **Step 3**: `prev=[C]->[B]->[A]->null`, `curr=null` (done!)
+
+When `current` becomes `null`, `previous` is pointing to the new head of the reversed list.
+
+### Example: Reversing a List of Letters
+```csharp
+// Original: Head -> [X] -> [Y] -> [Z] -> null
+
+Node previous = null;
+Node current = head;
+
+while (current != null)
+{
+    Node next = current.Next;   // Save the next node
+    current.Next = previous;     // Reverse the link
+    previous = current;          // Advance previous
+    current = next;              // Advance current
+}
+
+// After loop: previous -> [Z] -> [Y] -> [X] -> null
+// The new head is 'previous'
+```
+
+### Collecting Values from a Linked List
+To convert a linked list back into an array, walk through the list from head to tail, collecting each node's value:
+
+```csharp
+List<int> result = new List<int>();
+Node node = head;
+while (node != null)
+{
+    result.Add(node.Value);
+    node = node.Next;
+}
+int[] array = result.ToArray();
+```
+
+## Your Task
+Write the `ReverseList` method that:
+
+- Builds a singly linked list from the input `int[]` array using the provided `Node` class (defined in Node.cs)
+- Reverses the linked list in-place using the three-pointer technique
+- Returns the reversed values as an `int[]` array
+
+Handle edge cases: an empty array should return an empty array, and a single-element array should return that same element.
+
+### Method Signature
+```csharp
+public static int[] ReverseList(int[] values)
+```
+
+### Expected Results
+```
+ReverseList([1, 2, 3, 4, 5]) -> [5, 4, 3, 2, 1]
+ReverseList([10, 20])        -> [20, 10]
+ReverseList([42])            -> [42]
+ReverseList([])              -> []
+```
 
