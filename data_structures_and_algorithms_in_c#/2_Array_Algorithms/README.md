@@ -637,3 +637,85 @@ MaxSubarraySum([1, 2, 3, 4]) -> 10
 MaxSubarraySum([-1, -2, -3]) -> -1
 MaxSubarraySum([5]) -> 5
 ```
+
+# Part 9: Chapter Capstone — Array Toolkit
+
+## Chapter Capstone — Array Toolkit
+Throughout this chapter, you've mastered several fundamental array techniques: the reversal algorithm for rotation, the write-pointer technique for moving elements, and hash-based complement lookup for Two Sum. Real-world problems rarely require just one technique — they demand you compose multiple algorithms into a coherent pipeline.
+
+This capstone challenges you to combine three techniques into a single method that transforms an array step by step.
+
+### The Three-Stage Pipeline
+Your method will process an array through three stages, each building on the result of the previous one:
+
+1. **Rotate Right** — Shift all elements to the right by `rotateBy` positions using the reversal algorithm (three manual reversals).
+2. **Move Zeroes** — Push all zero values to the end of the array while keeping the relative order of non-zero elements intact, using the write-pointer technique.
+3. **Two Sum** — Search the transformed array for two indices whose values add up to `target`, using a hash-based complement lookup.
+
+Each stage modifies the array in-place before the next stage begins.
+
+### Recap: Reversal Algorithm for Rotation
+Rotating an array right by k positions can be done with three reversals:
+1. Reverse the entire array
+2. Reverse the first k elements
+3. Reverse the remaining elements
+
+Remember to handle k values larger than the array length by taking `k % length`.
+
+```csharp
+// Example: rotating [10, 20, 30, 40, 50] right by 2
+// After full reverse:    [50, 40, 30, 20, 10]
+// After reversing 0..1:  [40, 50, 30, 20, 10]
+// After reversing 2..4:  [40, 50, 10, 20, 30]
+```
+
+### Recap: Write-Pointer for Moving Zeroes
+Use a write pointer that tracks where the next non-zero value should go. Walk through the array, copying non-zero values forward, then fill the remaining positions with zeroes.
+
+```csharp
+// Example: [3, 0, 1, 0, 5] → [3, 1, 5, 0, 0]
+// writePos advances only for non-zero values
+```
+
+### Recap: Hash-Based Two Sum
+For each element, compute its complement (`target - element`) and check if you've seen that complement before using a dictionary. If yes, return the pair of indices. If you exhaust the array with no match, there's no solution.
+
+```csharp
+// Example: [4, 7, 2, 9], target = 11
+// At index 0: complement = 7, not seen → store 4→0
+// At index 1: complement = 4, seen at 0 → return [0, 1]
+```
+
+## Your Task
+Write a method that takes an integer array `arr`, an integer `rotateBy`, and an integer `target`. Perform these three operations in order:
+
+1. **Rotate** the array right by `rotateBy` positions (handle values ≥ array length).
+2. **Move zeroes** to the end, preserving relative order of non-zero elements.
+3. **Find Two Sum** indices in the resulting array that add up to `target`.
+
+Return the two indices as an `int[]`. If no valid pair exists, return `[-1, -1]`. Return the first pair found (smallest first index, then smallest second index for that first index).
+
+You must implement reversal manually — built-in reverse methods and LINQ are not allowed.
+
+### Method Signature
+```csharp
+public static int[] ArrayCapstone(int[] arr, int rotateBy, int target)
+```
+
+### Expected Results
+```
+ArrayCapstone([1, 2, 3, 4, 5], 2, 7) → [1, 3]
+// After rotate right by 2: [4, 5, 1, 2, 3]
+// No zeroes to move: [4, 5, 1, 2, 3]
+// Two Sum target 7: arr[1]=5 + arr[3]=2 = 7 → [1, 3]
+
+ArrayCapstone([0, 1, 0, 3, 5], 1, 4) → [1, 2]
+// After rotate right by 1: [5, 0, 1, 0, 3]
+// After move zeroes: [5, 1, 3, 0, 0]
+// Two Sum target 4: 1+3=4 → [1, 2]
+
+ArrayCapstone([3, 0, 7, 0, 2], 7, 9) → [0, 2]
+// After rotate right by 7 (7%5=2): [0, 2, 3, 0, 7]
+// After move zeroes: [2, 3, 7, 0, 0]
+// Two Sum target 9: 2+7=9 → [0, 2]
+```
