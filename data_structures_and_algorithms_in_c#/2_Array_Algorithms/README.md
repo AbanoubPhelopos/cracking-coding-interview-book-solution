@@ -394,3 +394,77 @@ TwoSum([3, 2, 4], 6)            → [1, 2]
 TwoSum([1, 5, 3, 7, 2], 9)      → [1, 3]
 TwoSum([-1, 0, 1, 2], 1)        → [0, 2]
 ```
+
+# Part 6: Rotate Array by K
+
+## The Reversal Algorithm for Array Rotation
+Rotating an array means shifting every element to the right (or left) by a certain number of positions, with elements that "fall off" one end wrapping around to the other. This operation appears in circular buffers, scheduling algorithms, and image processing. The reversal algorithm is an elegant O(n) time, O(1) space technique that accomplishes rotation using only in-place swaps.
+
+### How It Works
+The key insight is that rotation can be decomposed into three reversals. Imagine you have a deck of cards and you want to move the last few cards to the front. If you flip the entire deck upside down, the cards that were at the end are now at the beginning — but everything is backwards. By then flipping the front portion and the back portion separately, each section is restored to its correct order.
+
+The three steps for a right rotation by k positions:
+1. **Reverse the entire array** — brings the tail elements to the front, but both halves are now backwards
+2. **Reverse the first k elements** — restores the correct order of what was the tail
+3. **Reverse the remaining elements** — restores the correct order of what was the head
+
+### Normalizing K
+If k is larger than the array length, rotating by k is the same as rotating by `k % length`. For example, rotating a 5-element array by 7 positions is equivalent to rotating by 2 positions. Always normalize k before proceeding.
+
+### Syntax
+```csharp
+// A helper method to reverse a section of an array between two indices
+private static void ReverseSection(int[] data, int start, int end)
+{
+    while (start < end)
+    {
+        int temp = data[start];
+        data[start] = data[end];
+        data[end] = temp;
+        start++;
+        end--;
+    }
+}
+```
+
+### Examples
+```
+Consider the string characters ['A', 'B', 'C', 'D', 'E'] rotated right by 3:
+
+Original:           A  B  C  D  E
+Reverse all:        E  D  C  B  A
+Reverse first 3:    C  D  E  B  A
+Reverse last 2:     C  D  E  A  B
+Result: The last 3 elements (C, D, E) moved to the front.
+
+Another example — rotating [10, 20, 30, 40] right by 1:
+
+Original:           10  20  30  40
+Reverse all:        40  30  20  10
+Reverse first 1:    40  30  20  10   (single element, no change)
+Reverse last 3:     40  10  20  30
+Result: [40, 10, 20, 30] — the last element wrapped to the front.
+```
+
+### Edge Cases to Consider
+- **k equals 0**: No rotation needed — the array stays as-is
+- **k equals the array length**: Full rotation brings everything back to the original position
+- **k greater than the array length**: Normalize using the modulo operator
+- **Empty array**: Nothing to rotate — return immediately
+- **Single element**: Already in its only possible position
+
+## Your Task
+Write a method that rotates an integer array to the right by k positions in-place using the reversal algorithm. You must implement your own reverse helper — do not use any built-in reverse or LINQ slicing methods. The method should modify the array in place and return it.
+
+### Method Signature
+```csharp
+public static int[] RotateArray(int[] arr, int k)
+```
+
+### Expected Results
+```
+RotateArray([1, 2, 3, 4, 5], 2)  -> [4, 5, 1, 2, 3]
+RotateArray([1, 2, 3, 4, 5], 5)  -> [1, 2, 3, 4, 5]
+RotateArray([10, 20, 30], 1)     -> [30, 10, 20]
+RotateArray([], 3)               -> []
+```
