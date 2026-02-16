@@ -481,5 +481,101 @@ SearchList([], 5)                  -> False
 SearchList([4, 8, 15, 16, 23], 23) -> True
 ```
 
+# Part 6: Insert at Position
+
+## Inserting a Node at a Specific Position in a Linked List
+A singly linked list is one of the most fundamental data structures in computer science. Unlike arrays, linked lists don't store elements in contiguous memory. Instead, each element (called a node) holds a value and a reference (pointer) to the next node in the sequence. This structure makes insertions and deletions efficient — especially compared to arrays, where elements must be shifted.
+
+### How It Works
+Each node in a singly linked list has two parts:
+
+- **Value**: The data stored in the node
+- **Next**: A reference to the next node (or `null` if it's the last node)
+
+To insert a node at a specific position, you need to:
+
+1. Navigate to the node just before the target position
+2. Rewire the references so the new node points to what comes after, and the previous node points to the new node
+
+Inserting at position 0 (the head) is a special case because there is no previous node — you simply make the new node point to the current head and update the head reference.
+
+### Syntax
+```csharp
+// Creating a node
+Node myNode = new Node(42);
+
+// Linking nodes together
+Node a = new Node(10);
+Node b = new Node(20);
+a.Next = b;  // a -> b -> null
+
+// Traversing a linked list
+Node current = head;
+while (current != null)
+{
+    // Process current.Value
+    current = current.Next;
+}
+```
+
+### Examples
+Consider a linked list representing: `10 -> 20 -> 40 -> null`
+
+**Inserting 30 at position 2:**
+
+1. Start at the head (value 10, position 0)
+2. Move to the next node (value 20, position 1) — this is position 2 - 1
+3. Create a new node with value 30
+4. Set the new node's `Next` to the node at position 2 (value 40)
+5. Set the node at position 1's `Next` to the new node
+
+Result: `10 -> 20 -> 30 -> 40 -> null`
+
+**Inserting 5 at position 0 (the head):**
+
+1. Create a new node with value 5
+2. Point the new node's `Next` to the current head (value 10)
+3. Update the head to be the new node
+
+Result: `5 -> 10 -> 20 -> 30 -> 40 -> null`
+
+**Inserting 50 at the end (position equal to list length):**
+
+1. Traverse to the last node (value 40)
+2. Create a new node with value 50
+3. Set the last node's `Next` to the new node
+
+Result: `5 -> 10 -> 20 -> 30 -> 40 -> 50 -> null`
+
+### Common Patterns
+| Operation | Key Idea |
+| :--- | :--- |
+| Insert at head (pos 0) | New node's `Next` = old head; update head |
+| Insert in middle | Navigate to node at `position - 1`; rewire references |
+| Insert at end | Navigate to last node; set its `Next` to new node |
+| Traverse the list | Follow `Next` references until `null` |
+
+## Your Task
+Write a method that:
+
+- Builds a singly linked list from the given `values` array (using the `Node` class provided in Node.cs)
+- Inserts a new node containing `newValue` at the specified zero-based `position`
+- Traverses the modified linked list and returns all values as an `int[]`
+
+Position 0 means inserting at the head. The position will always be valid (between 0 and the length of the list, inclusive).
+
+### Method Signature
+```csharp
+public static int[] InsertAtPosition(int[] values, int position, int newValue)
+```
+
+### Expected Results
+```
+InsertAtPosition([1, 2, 4, 5], 2, 3)  -> [1, 2, 3, 4, 5]
+InsertAtPosition([10, 20, 30], 0, 5)  -> [5, 10, 20, 30]
+InsertAtPosition([10, 20, 30], 3, 40) -> [10, 20, 30, 40]
+```
+
+
 
 
