@@ -392,4 +392,94 @@ GetLength([])                     -> 0
 GetLength([1, 2, 3, 4, 5, 6, 7]) -> 7
 ```
 
+# Part 5: Search for Value
+
+## Searching in a Singly Linked List
+A singly linked list is one of the most fundamental data structures in computer science. Unlike arrays, where elements sit in contiguous memory, a linked list stores each element in a separate node that holds a value and a reference (pointer) to the next node. Searching a linked list means starting at the first node (the head) and following the chain of `Next` references until you either find what you're looking for or reach the end.
+
+### How It Works
+Imagine a treasure hunt where each clue leads you to the next location. You can't skip ahead — you must visit each location in order. That's exactly how linked list traversal works:
+
+1. Start at the head node.
+2. Check if the current node's value matches what you're searching for.
+3. If it matches, you're done — the value exists.
+4. If not, move to the next node.
+5. If there is no next node (`null`), the value doesn't exist in the list.
+
+### Building a Linked List from Values
+Before you can search, you need to construct the list. Given a series of values, you create a node for each one and link them together:
+
+```csharp
+// Creating nodes manually
+Node first = new Node(10);
+Node second = new Node(20);
+Node third = new Node(30);
+
+// Linking them together
+first.Next = second;
+second.Next = third;
+// Now: 10 -> 20 -> 30 -> null
+```
+
+When building from a collection, you typically keep track of the last node so you can attach new nodes to it efficiently.
+
+### Traversing a Linked List
+Traversal follows a simple pattern using a temporary reference:
+
+```csharp
+// Suppose 'head' points to the first node of a list: 5 -> 12 -> 8 -> null
+Node current = head;
+while (current != null)
+{
+    // Do something with current.Value
+    Console.WriteLine(current.Value); // Prints 5, then 12, then 8
+    current = current.Next;
+}
+```
+
+The key insight is that `current = current.Next` advances your position by one node. When `current` becomes `null`, you've visited every node.
+
+### Searching During Traversal
+To search, you combine traversal with a condition check:
+
+```csharp
+// Searching for the value 12 in the list: 5 -> 12 -> 8 -> null
+Node current = head;
+while (current != null)
+{
+    if (current.Value == 12)
+    {
+        // Found it!
+        break;
+    }
+    current = current.Next;
+}
+// If current is null after the loop, 12 was not found
+```
+
+## Your Task
+Write the method `SearchList` that:
+
+- Takes an array of integers and a target value.
+- Builds a singly linked list from the array (first element becomes the head).
+- Traverses the linked list node by node to determine if the target value exists.
+- Returns `true` if the target is found, `false` otherwise.
+
+Handle edge cases like an empty array (no nodes to search).
+
+### Method Signature
+```csharp
+public static bool SearchList(int[] values, int target)
+```
+
+### Expected Results
+```
+SearchList([1, 2, 3, 4, 5], 3)    -> True
+SearchList([1, 2, 3], 7)           -> False
+SearchList([10], 10)               -> True
+SearchList([], 5)                  -> False
+SearchList([4, 8, 15, 16, 23], 23) -> True
+```
+
+
 
